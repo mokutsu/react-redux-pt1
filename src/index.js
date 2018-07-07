@@ -17,12 +17,14 @@ class App extends Component {
   constructor(props) {
   // constructor runs to initialize app and prepopulate state with search results
     super(props);
+    const defaultTerm = 'cats';
     this.state = {
       videoResults: [],
       selectedVideo: null,
-      searchTerms: ['windsurfing'],
-      defaultSearch: 'windsurfing',
-      activeTerm: 'windsurfing',
+      searchTerms: [defaultTerm],
+      defaultSearch: defaultTerm,
+      activeTerm: defaultTerm,
+      searchCount: 0
     };
     this.videoSearch(this.state.defaultSearch);
   }
@@ -45,6 +47,7 @@ class App extends Component {
     }
     let updatedTerms = this.state.searchTerms.concat(term);
     this.setState({searchTerms: updatedTerms});
+    this.setState({searchCount: this.state.searchCount+1 })
   }
 
   render() {
@@ -54,6 +57,7 @@ class App extends Component {
     }, 500)
     return (
       <div>
+        search count: {this.state.searchCount}
         <SearchBar onSearchTermChange={debouncedVideoSearch} defaultSearch={this.state.defaultSearch} activeTerm={this.state.activeTerm} />
         <VideoDetail video={this.state.selectedVideo}/>
         <VideoList
